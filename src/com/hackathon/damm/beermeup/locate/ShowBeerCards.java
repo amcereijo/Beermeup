@@ -74,10 +74,10 @@ public class ShowBeerCards extends Activity{
 		
 		beerManList = new ArrayList<BeerMan>(); 
 		
-		BeerMan beerMan1 = new BeerMan(new Position(40.386893,-3.630135), beerTypeListWithAlcohol);
+		BeerMan beerMan1 = new BeerMan(new Position(40.390182, -3.625986), beerTypeListWithAlcohol);
 		beerManList.add(beerMan1);
 		
-		BeerMan beerMan2 = new BeerMan(new Position(40.390795,-3.627318), beerTypeListWithNoAlcohol);
+		BeerMan beerMan2 = new BeerMan(new Position(40.389651, -3.626796), beerTypeListWithNoAlcohol);
 		beerManList.add(beerMan2);
 		
 		BeerMan beerMan3 = new BeerMan(new Position(40.389819,-3.625275), beerTypeListDaura);
