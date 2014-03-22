@@ -21,7 +21,6 @@ public class DrinkNowActivity extends Activity {
 	
 	private List<Card> mCards;
 	private CardScrollView mCardScrollView;
-	private GestureDetector mGestureDetector;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
