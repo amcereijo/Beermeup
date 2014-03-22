@@ -91,6 +91,7 @@ public class ShowBeerCards extends Activity{
 			card.setImageLayout(ImageLayout.LEFT);
 			card.addImage(beer.getBeerImageId());
 			card.setText(beer.getName());
+			card.setFootnote("Toca para buscar");
 	        mCards.add(card);
 		}
 	}
