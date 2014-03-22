@@ -67,7 +67,7 @@ public class PlayActivity extends Activity {
 		actual = random.nextInt(4);
 		
 		Card card1 = new Card(this);
-        card1.setText(sonarSongs[actual]);
+        card1.setText("Adivina el artista de la siguiente canción y acumula collarines!!");
         card1.setFootnote(footer);
 		
 		View card1View = card1.toView();
@@ -83,12 +83,43 @@ public class PlayActivity extends Activity {
 				} catch (InterruptedException e) {
 					Log.e(TAG, "error" ,e);
 				}
-				changeView();
+				startGame();
 			}
 		}).start();
         
-      
 	}
+	
+	private void startGame(){
+		context = getApplicationContext();
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				Card card1 = new Card(context);
+		        card1.setText(sonarSongs[actual]);
+		        card1.setFootnote(footer);
+				
+				View card1View = card1.toView();
+		        setContentView(card1View);
+		        Log.i(TAG, "SEt de vista game");
+		        
+		        new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						try {
+							Thread.sleep(5000);
+						} catch (InterruptedException e) {
+							Log.e(TAG, "error" ,e);
+						}
+						changeView();
+					}
+				}).start();
+			}
+		});
+	}
+	
 	private VoiceInputHelper mVoiceInputHelper;
     private VoiceConfig mVoiceConfig;
     
@@ -122,14 +153,17 @@ public class PlayActivity extends Activity {
 		        
 		        Log.i(TAG, "vistas cambiadas");
 		        
-		        String[] items = {"ok","back"};
-		        mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
-		        mVoiceInputHelper = new VoiceInputHelper(context, new MyVoiceListener(mVoiceConfig),
-		                VoiceInputHelper.newUserActivityObserver(context));
+		        setVoiceListener();
 			}
 		});
 	}
 	
+	private void setVoiceListener(){
+		String[] items = {"ok","back"};
+        mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
+        mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
+                VoiceInputHelper.newUserActivityObserver(this));
+	}
 	
 	public class MyVoiceListener implements VoiceListener {
         
@@ -331,10 +365,10 @@ public class PlayActivity extends Activity {
         		card.setText("Collarines completos!!\n Código regalo: ABCDE1\nPrueba la nueva Damm Hack!!");
         	}else{
         		card.setText("Correcto!! Sumas 2 collarines a tu cuenta!!\n" +
-        				"Te faltan Collarines:" +(TOTAL_POINT-points)+" para tu premio");
+        				"Te faltan "+(TOTAL_POINT-points)+" para tu premio.");
+        		points = 0;
         	}
 	        card.setFootnote(footer);
-	        points = 0;
         }else{
         	card = new Card(context);
 	        card.setText("Incorrecto!!\nCollarines:" +points);
