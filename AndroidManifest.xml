@@ -32,7 +32,7 @@
                 android:resource="@xml/beermeup" />
         </activity>
         <activity
-            android:name="com.hackathon.damm.beermeup.EventDetailActivity"
+            android:name="com.hackathon.damm.beermeup.activity.EventDetailActivity"
             android:label="@string/title_activity_event_detail" >
         </activity>
 
