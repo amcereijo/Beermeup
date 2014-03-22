@@ -47,8 +47,7 @@ public class ShowBeerCards extends Activity{
         mGestureDetector = createGestureDetector(this);
 		
 	}
-	
-	
+
 
 	private void initBeerList(){
 		beerList = new ArrayList<Beer>();
@@ -91,7 +90,7 @@ public class ShowBeerCards extends Activity{
 			card.setImageLayout(ImageLayout.LEFT);
 			card.addImage(beer.getBeerImageId());
 			card.setText(beer.getName());
-			card.setFootnote("Toca para buscar");
+			card.setFootnote("Toca para localizar");
 	        mCards.add(card);
 		}
 	}
