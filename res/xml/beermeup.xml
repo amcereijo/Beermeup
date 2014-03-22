@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<trigger keyword="beer me up" >
+<trigger keyword="@string/app_name" >
     <constraints
         camera="true"
         network="true" 
