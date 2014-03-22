@@ -101,7 +101,7 @@ public class ShowBeerCards extends Activity{
 		BeerMan beerMan = findBeerManForBeer(beer);
 
 		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setData(Uri.parse("google.navigation:q=" + beerMan.getPosition().x + "," + beerMan.getPosition().y));
+		intent.setData(Uri.parse("google.navigation:mode=walking&q=" + beerMan.getPosition().x + "," + beerMan.getPosition().y));
 		startActivity(intent);
 	}
 	
