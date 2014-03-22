@@ -9,8 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,29 +18,41 @@ import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
-import com.hackathon.damm.beermeup.R;
-import com.hackathon.damm.beermeup.dto.EventDto;
+import com.hackathon.damm.beermeup.locate.ShowBeerCards;
 
-public class BeerMeUpMainActivity extends Activity {
+public class MainActivity extends Activity {
+
 	final static String TAG ="beermeup";
-	private List<Card> mCards;
-	private List<EventDto> eventList;
 	
 	private CardScrollView mCardScrollView;
-	private final String footText = "Selecciona un evento";
+	private final String footText = "Estrella Damm";
 	private GestureDetector mGestureDetector;
-
+	private List<Card> mCards;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_beer_me_up_main);
 		
-		android.os.Debug.waitForDebugger();
-
+		checkPrompt();
 		
-		loadEventsData();
-		createCards();
+		mCards = new ArrayList<Card>(3);
 		
+		Card cardPlay = new Card(this);
+		cardPlay.setText("Juega");
+		cardPlay.setFootnote(footText);
+        mCards.add(cardPlay);
+		
+        Card cardInfo = new Card(this);
+        cardInfo.setText("Información");
+        cardInfo.setFootnote(footText);
+        mCards.add(cardInfo);
+        
+        Card cardLocation = new Card(this);
+        cardLocation.setText("Localiza Cerveza");
+        cardLocation.setFootnote(footText);
+        mCards.add(cardLocation);
+        
 		mCardScrollView = new CardScrollView(this);
         ExampleCardScrollAdapter adapter = new ExampleCardScrollAdapter();
         mCardScrollView.setAdapter(adapter);
@@ -53,7 +63,6 @@ public class BeerMeUpMainActivity extends Activity {
         
         mGestureDetector = createGestureDetector(this);
 	}
-
 	
 	@Override
 	public boolean onGenericMotionEvent(MotionEvent event) {
@@ -141,34 +150,21 @@ public class BeerMeUpMainActivity extends Activity {
 	
 	protected void processTAP() {
 		int cardPos = mCardScrollView.getSelectedItemPosition();
-        EventDto dailyInfoDto = eventList.get(cardPos);
-        
-        Intent dailyProjectIntent = new Intent(this, EventDetailActivity.class);
-        dailyProjectIntent.putExtra(EventDto.EVENT_INFO_KEY, dailyInfoDto);	
-        
-        startActivity(dailyProjectIntent);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.beer_me_up_main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+		Intent intent = null;
+        switch (cardPos) {
+		case 0:
+			 intent = new Intent(this, PlayActivity.class);
+			break;
+		case 2:
+			intent = new Intent(this, BeerMeUpMainActivity.class);
+			break;
+		case 1: intent = new Intent(this, ShowBeerCards.class);
+		default:
+			break;
 		}
-		return super.onOptionsItemSelected(item);
+        startActivity(intent);
 	}
-
+	
 	private class ExampleCardScrollAdapter extends CardScrollAdapter {
 
         @Override
@@ -198,56 +194,26 @@ public class BeerMeUpMainActivity extends Activity {
         }
     }
 	
-	private void loadEventsData() {
-		eventList = new ArrayList<EventDto>();
-		
-		EventDto eventDto = new EventDto();
-		eventDto.setTitle("Sonar");
-		eventDto.setEventImageId(R.drawable.logo_sonar);
-		List<String> bands = new ArrayList<String>(3);
-		bands.add("Grupo 1");
-		bands.add("Grupo 2");
-		eventDto.setBands(bands);
-		eventList.add(eventDto);
-		
-		eventDto = new EventDto();
-		eventDto.setTitle("POPARB");
-		eventDto.setEventImageId(R.drawable.logo_poparb);
-		bands = new ArrayList<String>(3);
-		bands.add("Grupo 1");
-		bands.add("Grupo 2");
-		eventDto.setBands(bands);
-		eventList.add(eventDto);
-		
-		eventDto = new EventDto();
-		eventDto.setTitle("PICNICK ELECTRONIK");
-		eventDto.setEventImageId(R.drawable.logo_picnic_electronik);
-		bands = new ArrayList<String>(3);
-		bands.add("Grupo 1");
-		bands.add("Grupo 2");
-			eventDto.setBands(bands);
-			eventList.add(eventDto);
-		
-		eventDto = new EventDto();
-		eventDto.setTitle("APHONICA BANYOLES");
-		eventDto.setEventImageId(R.drawable.logo_aphonica);
-		bands = new ArrayList<String>(3);
-		bands.add("Grupo 1");
-		bands.add("Grupo 2");
-		eventDto.setBands(bands);
-		eventList.add(eventDto);
+	
+	private void checkPrompt() {
+		ArrayList<String> voiceResults = getIntent().getExtras()
+		        .getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
+		Log.i(TAG, "voiceresults:"+voiceResults);
+		if(voiceResults!=null && !voiceResults.isEmpty() && 
+				voiceResults.iterator().hasNext()){
+			String prompt = voiceResults.iterator().next();
+			Log.i(TAG, "prompt:"+prompt);
+			if("play".equals(prompt)){
+				Intent intent = new Intent(this, PlayActivity.class);
+				startActivity(intent);
+			} else if("info".equals(prompt)){
+				Intent intent = new Intent(this, BeerMeUpMainActivity.class);
+				startActivity(intent);
+			}else if("location".equals(prompt)){
+				Intent intent = new Intent(this, ShowBeerCards.class);
+				startActivity(intent);
+			}
+		}
 	}
-
-
-	private void createCards() {
-        mCards = new ArrayList<Card>(eventList.size());
-        for(EventDto daily : eventList){
-	        Card card = new Card(this);
-	        card.setText(daily.getTitle());
-	        card.setFootnote(footText);
-	        mCards.add(card);
-        }
-    }
-
-
+	
 }

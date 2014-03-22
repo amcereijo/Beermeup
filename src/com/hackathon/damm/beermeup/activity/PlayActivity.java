@@ -6,6 +6,7 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -111,7 +112,14 @@ public class PlayActivity extends Activity {
 	}
 	
 	
+	private void savePoints(int poinst){
+		//getSharedPreferences("beermeup.play", )
+	}
 	
+	private int readPoints(){
+		int points = 0;
+		return points;
+	}
 	
 	private class ExampleCardScrollAdapter extends CardScrollAdapter {
 
@@ -236,11 +244,11 @@ public class PlayActivity extends Activity {
         if(cardPos == actual){
         	card = new Card(context);
 	        card.setText("Premio!! Código regalo: JXDHU");
-	        card.setFootnote(footer);
+	        card.setFootnote(footer+" Points:" +readPoints());
         }else{
         	card = new Card(context);
 	        card.setText("Incorrecto!!");
-	        card.setFootnote(footer);
+	        card.setFootnote(footer+" Points:" +readPoints());
         }
         setContentView(card.toView());
         Log.i(TAG, "Setted view");
