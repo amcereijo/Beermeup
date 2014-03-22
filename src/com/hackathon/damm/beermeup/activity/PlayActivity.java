@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -397,7 +399,6 @@ public class PlayActivity extends Activity {
         	}else{
         		card.setText("Correcto!! Sumas 2 collarines a tu cuenta!!\n" +
         				"Te faltan "+(TOTAL_POINT-points)+" para tu premio.");
-        		
         	}
 	        card.setFootnote(footer);
         }else{
@@ -410,5 +411,28 @@ public class PlayActivity extends Activity {
         savePoints(points);
         setContentView(card.toView());
         Log.i(TAG, "Setted view");
+        getMenuInflater().inflate(R.menu.play_menu, menu);
+        
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if(id==R.id.play_jugar){
+			onResume();
+			return true;
+		}else if(id==R.id.play_salir){
+			finish();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	private Menu menu;
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		this.menu = menu;
+		return super.onCreateOptionsMenu(menu);
 	}
 }
