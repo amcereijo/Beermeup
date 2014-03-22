@@ -55,19 +55,19 @@ public class DrinkNowActivity extends Activity {
 			Card card = new Card(this);
 	        card.setText("MASSIVE ATTACK\nEscenario Estrella Dam\nViernes 21\n20:00-21:30");
 	        card.setFootnote("Estrella Damm");
-	        card.addImage(R.drawable.cerveza_normal);
+	        card.addImage(R.drawable.massiveattack);
 	        mCards.add(card);
 	        
 	        Card card1 = new Card(this);
 	        card1.setText("WOOD KID\nEscenario Sonar\nViernes 21\n20:00-21:15");
 	        card1.setFootnote("Estrella Damm");
-	        card1.addImage(R.drawable.cerveza_normal);
+	        card1.addImage(R.drawable.jused);
 	        mCards.add(card1);
 	        
 	        Card card2 = new Card(this);
 	        card2.setText("RICHIE HAWTIN\nEscenario DJ\nViernes 21\n20:00-22:00");
 	        card2.setFootnote("Estrella Damm");
-	        card2.addImage(R.drawable.cerveza_normal);
+	        card2.addImage(R.drawable.richiehawkin);
 	        mCards.add(card2);
 	        context = getApplicationContext();
 		runOnUiThread(new Runnable() {
