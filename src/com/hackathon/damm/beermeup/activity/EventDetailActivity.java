@@ -54,7 +54,7 @@ public class EventDetailActivity extends Activity{
 //        View card1View = card1.toView();
 //        setContentView(card1View);
         
-        String[] items = {"back","next", "check"};
+        String[] items = {"back","next", "check", "exit"};
         mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
         mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
                 VoiceInputHelper.newUserActivityObserver(this));
@@ -309,6 +309,8 @@ public class EventDetailActivity extends Activity{
             	}
             }else if("check".equals(recognizedStr)){
             	processTAP();
+            }else if("exit".equals(recognizedStr)){
+            	finish();
             }
             
             return voiceConfig;
