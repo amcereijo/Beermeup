@@ -56,6 +56,7 @@ public class PlayActivity extends Activity {
 	private List<Card> mCards; 
 	private VoiceInputHelper mVoiceInputHelper;
     private VoiceConfig mVoiceConfig;
+    private boolean inFinishView = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class PlayActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		Log.i(TAG, "onResume");
+		inFinishView = false;
 		
 		mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
                 VoiceInputHelper.newUserActivityObserver(this));
@@ -87,6 +89,39 @@ public class PlayActivity extends Activity {
 		View card1View = card1.toView();
         setContentView(card1View);
         Log.i(TAG, "SEt de vista principl");
+        
+        new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					Log.e(TAG, "error" ,e);
+				}
+				startGame();
+			}
+		}).start();
+	}
+	
+	private void preparePlay(){
+		actual = random.nextInt(4);
+		inFinishView = false;
+		final Card card1 = new Card(this);
+        card1.setText("Adivina el artista de la siguiente canción y acumula collarines!!");
+        card1.setFootnote(footer);
+		
+        runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				View card1View = card1.toView();
+		        setContentView(card1View);
+		        Log.i(TAG, "SEt de vista principl");
+				
+			}
+		});
+		
         
         new Thread(new Runnable() {
 			
@@ -222,7 +257,7 @@ public class PlayActivity extends Activity {
 	            	}
 	            	Log.i(TAG, "back-- new actual:"+mCardScrollView.getSelectedItemPosition());
 	            }else if("game".equals(recognizedStr)){
-	            	onResume();
+	            	preparePlay();
 	            }
             }
             
@@ -383,35 +418,43 @@ public class PlayActivity extends Activity {
 	        return gestureDetector;
 	    }
 
-
+	
+	
+	
 	protected void processTAP() {
 		int cardPos = mCardScrollView.getSelectedItemPosition();
 		int points = readPoints();
 		Log.i(TAG, "Tab processed in position:"+ cardPos +", actual:"+ actual);
 		Card card = null;
-        if(cardPos == actual){
-        	card = new Card(context);
-        	card.addImage(R.drawable.cerveza_normal);
-        	points +=2 ;
-        	if(TOTAL_POINT == points){
-        		card.setText("Collarines completos!!\nCódigo regalo: ABCDE1\nPrueba la nueva Damm Hack!!");
-        		points = 0;
-        	}else{
-        		card.setText("Correcto!! Sumas 2 collarines a tu cuenta!!\n" +
-        				"Te faltan "+(TOTAL_POINT-points)+" para tu premio.");
-        	}
-	        card.setFootnote(footer);
-        }else{
-        	card = new Card(context);
-	        card.setText("Incorrecto!! Sigue jugando.\n"+
-	        		"Te faltan "+(TOTAL_POINT-points)+" para tu premio.");
-	        card.addImage(R.drawable.cerveza_normal);
-	        card.setFootnote(footer);
-        }
-        savePoints(points);
-        setContentView(card.toView());
-        Log.i(TAG, "Setted view");
-        getMenuInflater().inflate(R.menu.play_menu, menu);
+		
+		if(inFinishView){
+			openOptionsMenu();
+		}else{
+		
+	        if(cardPos == actual){
+	        	card = new Card(context);
+	        	card.addImage(R.drawable.cerveza_normal);
+	        	points +=2 ;
+	        	if(TOTAL_POINT == points){
+	        		card.setText("Collarines completos!!\nCódigo regalo: ABCDE1\nPrueba la nueva Damm Hack!!");
+	        		points = 0;
+	        	}else{
+	        		card.setText("Correcto!! Sumas 2 collarines a tu cuenta!!\n" +
+	        				"Te faltan "+(TOTAL_POINT-points)+" para tu premio.");
+	        	}
+		        card.setFootnote(footer);
+	        }else{
+	        	card = new Card(context);
+		        card.setText("Incorrecto!! Sigue jugando.\n"+
+		        		"Te faltan "+(TOTAL_POINT-points)+" para tu premio.");
+		        card.addImage(R.drawable.cerveza_normal);
+		        card.setFootnote(footer);
+	        }
+	        savePoints(points);
+	        setContentView(card.toView());
+	        Log.i(TAG, "Setted view");
+	        inFinishView = true;
+		}
         
 	}
 	
@@ -419,7 +462,7 @@ public class PlayActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if(id==R.id.play_jugar){
-			onResume();
+			preparePlay();
 			return true;
 		}else if(id==R.id.play_salir){
 			finish();
@@ -428,11 +471,10 @@ public class PlayActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	private Menu menu;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		this.menu = menu;
-		return super.onCreateOptionsMenu(menu);
+
+		getMenuInflater().inflate(R.menu.play_menu, menu);
+		return true;
 	}
 }
