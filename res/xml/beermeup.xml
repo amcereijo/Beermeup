@@ -15,6 +15,7 @@
 -->
 
 <trigger keyword="be" >
+    <input prompt="play" />
     <constraints
         camera="true"
         network="true" 

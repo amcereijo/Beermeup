@@ -34,15 +34,19 @@ public class PlayActivity extends Activity {
 			"Don't you know it's gone too wrong Early warning How could it have come to this We're dying trying  It's a long way down... "
 	};
 	
-	Random random = new Random(System.currentTimeMillis());
+	private Random random = new Random(System.currentTimeMillis());
 	private int actual;
 	private GestureDetector mGestureDetector;
 	private final String footer = "Estrella Damm play";
+	private CardScrollView mCardScrollView;
+	private Context context;
+	private List<Card> mCards; 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		android.os.Debug.waitForDebugger();
+		Log.i(TAG, "Entra a PLay");
 	}
 	
 	
@@ -57,6 +61,7 @@ public class PlayActivity extends Activity {
 		
 		View card1View = card1.toView();
         setContentView(card1View);
+        Log.i(TAG, "SEt de vista principl");
         
         new Thread(new Runnable() {
 			
@@ -71,12 +76,11 @@ public class PlayActivity extends Activity {
 			}
 		});
 	}
-	private CardScrollView mCardScrollView;
-	private Context context;
-	private List<Card> mCards; 
 	
 	private void changeView(){
 		context = getApplicationContext();
+		
+		Log.i(TAG, "Cambiar vistas");
 		runOnUiThread(new Runnable() {
 			
 			@Override
@@ -100,6 +104,8 @@ public class PlayActivity extends Activity {
 		        mCardScrollView.setClickable(Boolean.TRUE);
 		        
 		        mGestureDetector = createGestureDetector(context);
+		        
+		        Log.i(TAG, "vistas cambiadas");
 			}
 		});
 	}
@@ -139,7 +145,7 @@ public class PlayActivity extends Activity {
 	
 	@Override
 	public boolean onGenericMotionEvent(MotionEvent event) {
-		
+		Log.i(TAG, "onGenericMotionEvent with event:"+event.getAction());
 		if (mGestureDetector != null) {
             return mGestureDetector.onMotionEvent(event);
         }
@@ -225,6 +231,7 @@ public class PlayActivity extends Activity {
 
 	protected void processTAP() {
 		int cardPos = mCardScrollView.getSelectedItemPosition();
+		Log.i(TAG, "Tab processed in position:"+ cardPos);
 		Card card = null;
         if(cardPos == actual){
         	card = new Card(context);
@@ -236,5 +243,6 @@ public class PlayActivity extends Activity {
 	        card.setFootnote(footer);
         }
         setContentView(card.toView());
+        Log.i(TAG, "Setted view");
 	}
 }

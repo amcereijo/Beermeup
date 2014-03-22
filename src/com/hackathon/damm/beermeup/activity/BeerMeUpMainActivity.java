@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +38,8 @@ public class BeerMeUpMainActivity extends Activity {
 //		setContentView(R.layout.activity_beer_me_up_main);
 		
 //		android.os.Debug.waitForDebugger();
+
+		checkPrompt();
 		
 		loadEventsData();
 		createCards();
@@ -50,6 +53,21 @@ public class BeerMeUpMainActivity extends Activity {
         mCardScrollView.setClickable(Boolean.TRUE);
         
         mGestureDetector = createGestureDetector(this);
+	}
+
+	private void checkPrompt() {
+		ArrayList<String> voiceResults = getIntent().getExtras()
+		        .getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
+		Log.i(TAG, "voiceresults:"+voiceResults);
+		if(voiceResults!=null && !voiceResults.isEmpty() && 
+				voiceResults.iterator().hasNext()){
+			String prompt = voiceResults.iterator().next();
+			Log.i(TAG, "prompt:"+prompt);
+			if("play".equals(prompt)){
+				Intent intent = new Intent(this, PlayActivity.class);
+				startActivity(intent);
+			}
+		}
 	}
 	
 	@Override
