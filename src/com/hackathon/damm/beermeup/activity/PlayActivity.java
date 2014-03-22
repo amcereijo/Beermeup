@@ -18,6 +18,7 @@ import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
+import com.hackathon.damm.beermeup.R;
 
 public class PlayActivity extends Activity {
 
@@ -75,7 +76,7 @@ public class PlayActivity extends Activity {
 				}
 				changeView();
 			}
-		});
+		}).start();
 	}
 	
 	private void changeView(){
@@ -92,6 +93,7 @@ public class PlayActivity extends Activity {
 					Card card = new Card(context);
 			        card.setText(response);
 			        card.setFootnote(footer);
+			        card.addImage(R.drawable.cerveza_normal);
 			        mCards.add(card);
 				}
 				
@@ -112,12 +114,14 @@ public class PlayActivity extends Activity {
 	}
 	
 	
-	private void savePoints(int poinst){
-		//getSharedPreferences("beermeup.play", )
+	private void savePoints(int points){
+		SharedPreferences sp = getSharedPreferences("beermeup.play", MODE_PRIVATE);
+		sp.edit().putInt("beermeup.play.points", points);
 	}
 	
 	private int readPoints(){
-		int points = 0;
+		SharedPreferences sp = getSharedPreferences("beermeup.play", MODE_PRIVATE);
+		int points = sp.getInt("beermeup.play.points", 0);
 		return points;
 	}
 	
@@ -239,17 +243,22 @@ public class PlayActivity extends Activity {
 
 	protected void processTAP() {
 		int cardPos = mCardScrollView.getSelectedItemPosition();
+		int points = readPoints();
 		Log.i(TAG, "Tab processed in position:"+ cardPos);
 		Card card = null;
         if(cardPos == actual){
         	card = new Card(context);
-	        card.setText("Premio!! Código regalo: JXDHU");
-	        card.setFootnote(footer+" Points:" +readPoints());
+        	card.addImage(R.drawable.cerveza_normal);
+	        card.setText("Premio!! Sumas 2 collarines a tu cuenta!!");
+	        points +=2 ;
+	        card.setFootnote(footer+" Collarines:" +points);
         }else{
         	card = new Card(context);
 	        card.setText("Incorrecto!!");
-	        card.setFootnote(footer+" Points:" +readPoints());
+	        card.addImage(R.drawable.cerveza_normal);
+	        card.setFootnote(footer+" Collarines:" +points);
         }
+        savePoints(points);
         setContentView(card.toView());
         Log.i(TAG, "Setted view");
 	}

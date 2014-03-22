@@ -51,6 +51,7 @@ public class ShowBeerCards extends Activity{
 	
 
 	private void initBeerList(){
+		beerList = new ArrayList<Beer>();
 		Beer normal = new Beer(BeerType.NORMAL, "Normal", R.drawable.cerveza_normal);
 		beerList.add(normal);
 		
@@ -70,6 +71,8 @@ public class ShowBeerCards extends Activity{
 		
 		List<BeerType> beerTypeListDaura = new ArrayList<BeerType>();
 		beerTypeListDaura.add(BeerType.DAURA);
+		
+		beerManList = new ArrayList<BeerMan>(); 
 		
 		BeerMan beerMan1 = new BeerMan(new Position(40.386893,-3.630135), beerTypeListWithAlcohol);
 		beerManList.add(beerMan1);

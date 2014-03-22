@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,8 +32,6 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
-		checkPrompt();
 		
 		mCards = new ArrayList<Card>(3);
 		
@@ -156,9 +153,10 @@ public class MainActivity extends Activity {
 			 intent = new Intent(this, PlayActivity.class);
 			break;
 		case 2:
-			intent = new Intent(this, BeerMeUpMainActivity.class);
+			intent = new Intent(this, ShowBeerCards.class);
 			break;
-		case 1: intent = new Intent(this, ShowBeerCards.class);
+		case 1: 
+		intent = new Intent(this, BeerMeUpMainActivity.class);
 		default:
 			break;
 		}
@@ -193,27 +191,6 @@ public class MainActivity extends Activity {
             return mCards.get(position).toView();
         }
     }
-	
-	
-	private void checkPrompt() {
-		ArrayList<String> voiceResults = getIntent().getExtras()
-		        .getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
-		Log.i(TAG, "voiceresults:"+voiceResults);
-		if(voiceResults!=null && !voiceResults.isEmpty() && 
-				voiceResults.iterator().hasNext()){
-			String prompt = voiceResults.iterator().next();
-			Log.i(TAG, "prompt:"+prompt);
-			if("play".equals(prompt)){
-				Intent intent = new Intent(this, PlayActivity.class);
-				startActivity(intent);
-			} else if("info".equals(prompt)){
-				Intent intent = new Intent(this, BeerMeUpMainActivity.class);
-				startActivity(intent);
-			}else if("location".equals(prompt)){
-				Intent intent = new Intent(this, ShowBeerCards.class);
-				startActivity(intent);
-			}
-		}
-	}
+
 	
 }

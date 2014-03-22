@@ -37,6 +37,14 @@
             android:name="com.hackathon.damm.beermeup.activity.BeerMeUpMainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
+            
+             <intent-filter>
+                <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.google.android.glass.VoiceTrigger"
+                android:resource="@xml/beermeup_info" />
            
         </activity>
         <activity
@@ -47,11 +55,25 @@
  		<activity android:name="com.hackathon.damm.beermeup.activity.PlayActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
+             <intent-filter>
+                <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.google.android.glass.VoiceTrigger"
+                android:resource="@xml/beermeup_play" />
         </activity>
         
  		<activity android:name="com.hackathon.damm.beermeup.locate.ShowBeerCards"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.google.android.glass.VoiceTrigger"
+                android:resource="@xml/beermeup_location" />
         </activity>
         
     </application>

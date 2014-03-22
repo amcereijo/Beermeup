@@ -14,9 +14,7 @@
      limitations under the License.
 -->
 
-<trigger keyword="hello" >
-    <input prompt="play" />
-    <input prompt="locate" />
+<trigger keyword="drink location" >
     <constraints
         camera="true"
         network="true" 
