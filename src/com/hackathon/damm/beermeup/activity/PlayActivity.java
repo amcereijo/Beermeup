@@ -18,6 +18,12 @@ import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
+import com.google.glass.input.VoiceInputHelper;
+import com.google.glass.input.VoiceListener;
+import com.google.glass.logging.FormattingLogger;
+import com.google.glass.logging.FormattingLoggers;
+import com.google.glass.voice.VoiceCommand;
+import com.google.glass.voice.VoiceConfig;
 import com.hackathon.damm.beermeup.R;
 
 public class PlayActivity extends Activity {
@@ -77,8 +83,12 @@ public class PlayActivity extends Activity {
 				changeView();
 			}
 		}).start();
+        
+      
 	}
-	
+	private VoiceInputHelper mVoiceInputHelper;
+    private VoiceConfig mVoiceConfig;
+    
 	private void changeView(){
 		context = getApplicationContext();
 		
@@ -97,7 +107,6 @@ public class PlayActivity extends Activity {
 			        mCards.add(card);
 				}
 				
-				
 				mCardScrollView = new CardScrollView(context);
 		        ExampleCardScrollAdapter adapter = new ExampleCardScrollAdapter();
 		        mCardScrollView.setAdapter(adapter);
@@ -109,10 +118,73 @@ public class PlayActivity extends Activity {
 		        mGestureDetector = createGestureDetector(context);
 		        
 		        Log.i(TAG, "vistas cambiadas");
+		        
+		        String[] items = {"ok","back"};
+		        mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
+		        mVoiceInputHelper = new VoiceInputHelper(context, new MyVoiceListener(mVoiceConfig),
+		                VoiceInputHelper.newUserActivityObserver(context));
 			}
 		});
 	}
 	
+	
+	public class MyVoiceListener implements VoiceListener {
+        
+		protected final VoiceConfig voiceConfig;
+
+        public MyVoiceListener(VoiceConfig voiceConfig) {
+            this.voiceConfig = voiceConfig;
+        }
+
+        @Override
+        public void onVoiceServiceConnected() {
+            mVoiceInputHelper.setVoiceConfig(mVoiceConfig, false);
+        }
+
+        @Override
+        public void onVoiceServiceDisconnected() {
+
+        }
+
+        @Override
+        public VoiceConfig onVoiceCommand(VoiceCommand vc) {
+            String recognizedStr = vc.getLiteral();
+            Log.i(TAG, "Recognized text: "+recognizedStr);
+            
+            if("back".equals(recognizedStr)){
+            	finish();
+            }else if("ok".equals(recognizedStr)){
+            	processTAP();
+            }
+            
+            return voiceConfig;
+        }
+
+        @Override
+        public FormattingLogger getLogger() {
+            return FormattingLoggers.getContextLogger();
+        }
+
+        @Override
+        public boolean isRunning() {
+            return true;
+        }
+
+        @Override
+        public boolean onResampledAudioData(byte[] arg0, int arg1, int arg2) {
+            return false;
+        }
+
+        @Override
+        public boolean onVoiceAmplitudeChanged(double arg0) {
+            return false;
+        }
+
+        @Override
+        public void onVoiceConfigChanged(VoiceConfig arg0, boolean arg1) {
+
+        }
+    }
 	
 	private void savePoints(int points){
 		SharedPreferences sp = getSharedPreferences("beermeup.play", MODE_PRIVATE);
