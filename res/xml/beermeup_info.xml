@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<trigger keyword="drink info" >
+<trigger keyword="drinkinfo" >
     <constraints
         camera="true"
         network="true" 
