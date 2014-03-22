@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.glass.app.Card;
+import com.google.android.glass.app.Card.ImageLayout;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -243,10 +244,6 @@ public class EventDetailActivity extends Activity{
 		eventDto.setFooter(title);
 		eventList.add(eventDto);
 		
-		eventDto = new EventDto();
-		eventDto.setTitle("Concierto4");
-		eventDto.setFooter(title);
-		eventList.add(eventDto);
 	}
 
 
