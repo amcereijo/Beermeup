@@ -23,7 +23,6 @@ import com.google.glass.logging.FormattingLogger;
 import com.google.glass.logging.FormattingLoggers;
 import com.google.glass.voice.VoiceCommand;
 import com.google.glass.voice.VoiceConfig;
-import com.hackathon.damm.beermeup.activity.BeerMeUpMainActivity.MyVoiceListener;
 import com.hackathon.damm.beermeup.locate.ShowBeerCards;
 
 public class MainActivity extends Activity {
@@ -71,7 +70,7 @@ public class MainActivity extends Activity {
         mCardScrollView.activate();
         setContentView(mCardScrollView);
         
-        String[] items = {"back","next", "check"};
+        String[] items = {"back","next", "check", "out"};
         mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
         mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
                 VoiceInputHelper.newUserActivityObserver(this));
@@ -140,6 +139,8 @@ public class MainActivity extends Activity {
             	}
             }else if("check".equals(recognizedStr)){
             	processTAP();
+            }else if("out".equals(recognizedStr)){
+            	finish();
             }
             
             return voiceConfig;
