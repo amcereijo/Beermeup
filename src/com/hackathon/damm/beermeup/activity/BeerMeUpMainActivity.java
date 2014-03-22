@@ -1,7 +1,8 @@
-package com.hackathon.damm.beermeup;
+package com.hackathon.damm.beermeup.activity;
+
+import java.util.List;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,9 +10,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
+
+import com.google.android.glass.app.Card;
+import com.google.android.glass.widget.CardScrollView;
+import com.hackathon.damm.beermeup.R;
+import com.hackathon.damm.beermeup.dto.EventDto;
 
 public class BeerMeUpMainActivity extends Activity {
+	
+	private List<Card> mCards;
+	private List<EventDto> dailyList;
+	
+	private CardScrollView mCardScrollView;
+	
+	private final String footText = "Choose Daily Team";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
