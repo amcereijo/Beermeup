@@ -241,9 +241,10 @@ public class BeerMeUpMainActivity extends Activity {
 
 	private void createCards() {
         mCards = new ArrayList<Card>(eventList.size());
-        for(EventDto daily : eventList){
+        for(EventDto eventDto : eventList){
 	        Card card = new Card(this);
-	        card.setText(daily.getTitle());
+	        card.addImage(eventDto.getEventImageId());
+	        card.setText(eventDto.getTitle());
 	        card.setFootnote(footText);
 	        mCards.add(card);
         }
