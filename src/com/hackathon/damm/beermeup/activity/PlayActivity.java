@@ -159,7 +159,7 @@ public class PlayActivity extends Activity {
 	}
 	
 	private void setVoiceListener(){
-		String[] items = {"ok","exit","next","back"};
+		String[] items = {"ok","exit","next","back","play"};
         mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
         mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
                 VoiceInputHelper.newUserActivityObserver(this));
@@ -203,6 +203,8 @@ public class PlayActivity extends Activity {
             	if(actual>0){
             		mCardScrollView.setSelection(actual-1);
             	}
+            }else if("play".equals(recognizedStr)){
+            	onResume();
             }
             
             return voiceConfig;
