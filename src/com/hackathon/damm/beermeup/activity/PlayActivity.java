@@ -7,6 +7,7 @@ import java.util.Random;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -29,6 +30,8 @@ import com.hackathon.damm.beermeup.R;
 public class PlayActivity extends Activity {
 
 	protected static final String TAG = "beermeup";
+	private static final int TOTAL_POINT = 4;
+	
 	private final String[] sonarResponses = new String[]{
 			"Massive Attack",
 			"Rudimental",
@@ -102,7 +105,7 @@ public class PlayActivity extends Activity {
 				for(String response : sonarResponses){
 					Card card = new Card(context);
 			        card.setText(response);
-			        card.setFootnote(footer);
+			        card.setFootnote("Selecciona respuesta");
 			        card.addImage(R.drawable.cerveza_normal);
 			        mCards.add(card);
 				}
@@ -188,7 +191,9 @@ public class PlayActivity extends Activity {
 	
 	private void savePoints(int points){
 		SharedPreferences sp = getSharedPreferences("beermeup.play", MODE_PRIVATE);
-		sp.edit().putInt("beermeup.play.points", points);
+		Editor editor = sp.edit();
+		editor.putInt("beermeup.play.points", points);
+		editor.commit();
 	}
 	
 	private int readPoints(){
@@ -316,14 +321,20 @@ public class PlayActivity extends Activity {
 	protected void processTAP() {
 		int cardPos = mCardScrollView.getSelectedItemPosition();
 		int points = readPoints();
-		Log.i(TAG, "Tab processed in position:"+ cardPos);
+		Log.i(TAG, "Tab processed in position:"+ cardPos +", actual:"+ actual);
 		Card card = null;
         if(cardPos == actual){
         	card = new Card(context);
         	card.addImage(R.drawable.cerveza_normal);
         	points +=2 ;
-        	card.setText("Premio!! Sumas 2 collarines a tu cuenta!!\nCollarines:" +points);
+        	if(TOTAL_POINT == points){
+        		card.setText("Collarines completos!!\n Código regalo: ABCDE1\nPrueba la nueva Damm Hack!!");
+        	}else{
+        		card.setText("Correcto!! Sumas 2 collarines a tu cuenta!!\n" +
+        				"Te faltan Collarines:" +(TOTAL_POINT-points)+" para tu premio");
+        	}
 	        card.setFootnote(footer);
+	        points = 0;
         }else{
         	card = new Card(context);
 	        card.setText("Incorrecto!!\nCollarines:" +points);
