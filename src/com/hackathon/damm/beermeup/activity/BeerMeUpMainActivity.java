@@ -218,6 +218,7 @@ public class BeerMeUpMainActivity extends Activity {
 		
 		EventDto eventDto = new EventDto();
 		eventDto.setTitle("Sonar");
+		eventDto.setEventImageId(R.drawable.logo_sonar);
 		List<String> bands = new ArrayList<String>(3);
 		bands.add("Grupo 1");
 		bands.add("Grupo 2");
@@ -226,6 +227,7 @@ public class BeerMeUpMainActivity extends Activity {
 		
 		eventDto = new EventDto();
 		eventDto.setTitle("POPARB");
+		eventDto.setEventImageId(R.drawable.logo_poparb);
 		bands = new ArrayList<String>(3);
 		bands.add("Grupo 1");
 		bands.add("Grupo 2");
@@ -234,6 +236,7 @@ public class BeerMeUpMainActivity extends Activity {
 		
 		eventDto = new EventDto();
 		eventDto.setTitle("PICNICK ELECTRONIK");
+		eventDto.setEventImageId(R.drawable.logo_picnic_electronik);
 		bands = new ArrayList<String>(3);
 		bands.add("Grupo 1");
 		bands.add("Grupo 2");
@@ -242,6 +245,7 @@ public class BeerMeUpMainActivity extends Activity {
 		
 		eventDto = new EventDto();
 		eventDto.setTitle("APHONICA BANYOLES");
+		eventDto.setEventImageId(R.drawable.logo_aphonica);
 		bands = new ArrayList<String>(3);
 		bands.add("Grupo 1");
 		bands.add("Grupo 2");

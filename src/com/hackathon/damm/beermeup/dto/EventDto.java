@@ -10,6 +10,7 @@ public class EventDto implements Serializable{
 	private String title;
 	private String info;
 	private List<String> bands;
+	private int eventImageId;
 	
 	public static final String EVENT_INFO_KEY = "dayliInfoDto";
 	
@@ -31,6 +32,11 @@ public class EventDto implements Serializable{
 	public void setBands(List<String> bands) {
 		this.bands = bands;
 	}
-
+	public int getEventImageId() {
+		return eventImageId;
+	}
+	public void setEventImageId(int eventImageId) {
+		this.eventImageId = eventImageId;
+	}
 	
 }
