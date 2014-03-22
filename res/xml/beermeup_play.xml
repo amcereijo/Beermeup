@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<trigger keyword="drinkplay" >
+<trigger keyword="drinkgame" >
     <constraints
         camera="true"
         network="true" 
