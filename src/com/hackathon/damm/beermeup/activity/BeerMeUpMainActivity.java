@@ -19,7 +19,14 @@ import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
+import com.google.glass.input.VoiceInputHelper;
+import com.google.glass.input.VoiceListener;
+import com.google.glass.logging.FormattingLogger;
+import com.google.glass.logging.FormattingLoggers;
+import com.google.glass.voice.VoiceCommand;
+import com.google.glass.voice.VoiceConfig;
 import com.hackathon.damm.beermeup.R;
+import com.hackathon.damm.beermeup.activity.EventDetailActivity.MyVoiceListener;
 import com.hackathon.damm.beermeup.dto.EventDto;
 
 public class BeerMeUpMainActivity extends Activity {
@@ -30,6 +37,9 @@ public class BeerMeUpMainActivity extends Activity {
 	private CardScrollView mCardScrollView;
 	private final String footText = "Selecciona un evento";
 	private GestureDetector mGestureDetector;
+	
+	private VoiceInputHelper mVoiceInputHelper;
+    private VoiceConfig mVoiceConfig;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +56,11 @@ public class BeerMeUpMainActivity extends Activity {
         mCardScrollView.setAdapter(adapter);
         mCardScrollView.activate();
         setContentView(mCardScrollView);
+        
+        String[] items = {"back","next"};
+        mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
+        mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
+                VoiceInputHelper.newUserActivityObserver(this));
         
         mCardScrollView.setClickable(Boolean.TRUE);
         
@@ -245,6 +260,78 @@ public class BeerMeUpMainActivity extends Activity {
 	        card.setText(eventDto.getTitle());
 	        card.setFootnote(footText);
 	        mCards.add(card);
+        }
+    }
+	
+	@Override
+    protected void onResume() {
+        super.onResume();
+        mVoiceInputHelper.addVoiceServiceListener();
+    }
+	
+	public class MyVoiceListener implements VoiceListener {
+        
+		protected final VoiceConfig voiceConfig;
+
+        public MyVoiceListener(VoiceConfig voiceConfig) {
+            this.voiceConfig = voiceConfig;
+        }
+
+        @Override
+        public void onVoiceServiceConnected() {
+            mVoiceInputHelper.setVoiceConfig(mVoiceConfig, false);
+        }
+
+        @Override
+        public void onVoiceServiceDisconnected() {
+
+        }
+
+        @Override
+        public VoiceConfig onVoiceCommand(VoiceCommand vc) {
+            String recognizedStr = vc.getLiteral();
+            Log.i(TAG, "Recognized text: "+recognizedStr);
+            
+            if("exit".equals(recognizedStr)){
+            	finish();
+            }else if("next".equals(recognizedStr)){
+            	int max = mCards.size();
+            	int actual = mCardScrollView.getSelectedItemPosition();
+            	if(actual<max-1){
+            		mCardScrollView.setSelection(actual+1);
+            	}
+            }else if("back".equals(recognizedStr)){
+            	int actual = mCardScrollView.getSelectedItemPosition();
+            	if(actual>0){
+            		mCardScrollView.setSelection(actual-1);
+            	}
+            }
+            
+            return voiceConfig;
+        }
+        @Override
+        public FormattingLogger getLogger() {
+            return FormattingLoggers.getContextLogger();
+        }
+
+        @Override
+        public boolean isRunning() {
+            return true;
+        }
+
+        @Override
+        public boolean onResampledAudioData(byte[] arg0, int arg1, int arg2) {
+            return false;
+        }
+
+        @Override
+        public boolean onVoiceAmplitudeChanged(double arg0) {
+            return false;
+        }
+
+        @Override
+        public void onVoiceConfigChanged(VoiceConfig arg0, boolean arg1) {
+
         }
     }
 
