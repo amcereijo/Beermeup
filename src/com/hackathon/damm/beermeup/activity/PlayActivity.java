@@ -376,10 +376,11 @@ public class PlayActivity extends Activity {
         	points +=2 ;
         	if(TOTAL_POINT == points){
         		card.setText("Collarines completos!!\n Código regalo: ABCDE1\nPrueba la nueva Damm Hack!!");
+        		points = 0;
         	}else{
         		card.setText("Correcto!! Sumas 2 collarines a tu cuenta!!\n" +
         				"Te faltan "+(TOTAL_POINT-points)+" para tu premio.");
-        		points = 0;
+        		
         	}
 	        card.setFootnote(footer);
         }else{
