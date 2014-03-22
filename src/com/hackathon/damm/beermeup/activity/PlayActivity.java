@@ -52,6 +52,8 @@ public class PlayActivity extends Activity {
 	private CardScrollView mCardScrollView;
 	private Context context;
 	private List<Card> mCards; 
+	private VoiceInputHelper mVoiceInputHelper;
+    private VoiceConfig mVoiceConfig;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class PlayActivity extends Activity {
 		View card1View = card1.toView();
         setContentView(card1View);
         Log.i(TAG, "SEt de vista principl");
+        
+        setVoiceListener();
         
         new Thread(new Runnable() {
 			
@@ -109,7 +113,7 @@ public class PlayActivity extends Activity {
 					@Override
 					public void run() {
 						try {
-							Thread.sleep(5000);
+							Thread.sleep(7000);
 						} catch (InterruptedException e) {
 							Log.e(TAG, "error" ,e);
 						}
@@ -120,8 +124,7 @@ public class PlayActivity extends Activity {
 		});
 	}
 	
-	private VoiceInputHelper mVoiceInputHelper;
-    private VoiceConfig mVoiceConfig;
+	
     
 	private void changeView(){
 		context = getApplicationContext();
@@ -153,13 +156,13 @@ public class PlayActivity extends Activity {
 		        
 		        Log.i(TAG, "vistas cambiadas");
 		        
-		        setVoiceListener();
+		        
 			}
 		});
 	}
 	
 	private void setVoiceListener(){
-		String[] items = {"ok","exit","next","back","play"};
+		String[] items = {"check","exit","next","back","play"};
         mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
         mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
                 VoiceInputHelper.newUserActivityObserver(this));
@@ -188,23 +191,29 @@ public class PlayActivity extends Activity {
             String recognizedStr = vc.getLiteral();
             Log.i(TAG, "Recognized text: "+recognizedStr);
             
-            if("exit".equals(recognizedStr)){
-            	finish();
-            }else if("ok".equals(recognizedStr)){
-            	processTAP();
-            }else if("next".equals(recognizedStr)){
-            	int max = mCards.size();
-            	int actual = mCardScrollView.getSelectedItemPosition();
-            	if(actual<max-1){
-            		mCardScrollView.setSelection(actual+1);
-            	}
-            }else if("back".equals(recognizedStr)){
-            	int actual = mCardScrollView.getSelectedItemPosition();
-            	if(actual>0){
-            		mCardScrollView.setSelection(actual-1);
-            	}
-            }else if("play".equals(recognizedStr)){
-            	onResume();
+            if(mCardScrollView.isShown()){
+	            if("exit".equals(recognizedStr)){
+	            	finish();
+	            }else if("check".equals(recognizedStr)){
+	            	processTAP();
+	            }else if("next".equals(recognizedStr)){
+	            	int max = mCards.size();
+	            	int actual = mCardScrollView.getSelectedItemPosition();
+	            	Log.i(TAG, "next-- max:"+max+"actual:"+actual);
+	            	if(actual<max-1){
+	            		mCardScrollView.setSelection(actual+1);
+	            	}
+	            	Log.i(TAG, "next-- new actual:"+mCardScrollView.getSelectedItemPosition());
+	            }else if("back".equals(recognizedStr)){
+	            	int actual = mCardScrollView.getSelectedItemPosition();
+	            	Log.i(TAG, "next-- actual:"+actual);
+	            	if(actual>0){
+	            		mCardScrollView.setSelection(actual-1);
+	            	}
+	            	Log.i(TAG, "back-- new actual:"+mCardScrollView.getSelectedItemPosition());
+	            }else if("play".equals(recognizedStr)){
+	            	onResume();
+	            }
             }
             
             return voiceConfig;

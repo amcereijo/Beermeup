@@ -22,6 +22,7 @@ import com.google.glass.logging.FormattingLogger;
 import com.google.glass.logging.FormattingLoggers;
 import com.google.glass.voice.VoiceCommand;
 import com.google.glass.voice.VoiceConfig;
+import com.hackathon.damm.beermeup.R;
 import com.hackathon.damm.beermeup.dto.EventDto;
 
 public class EventDetailActivity extends Activity{
@@ -194,34 +195,51 @@ public class EventDetailActivity extends Activity{
             return mCards.get(position).toView();
         }
     }
-	private String getGrupos(String evento){
+	private ArrayList<String> getGrupos(String evento){
 		if("Sonar".equals(evento)){
-			return "Massive Attack \nRichie Hawtin \nPlastikman";
+			return new ArrayList<String>(){{add("Massive Attack"); add("Richie Hawtin"); add("Plastikman");}};
 		}
 		if("POPARB".equals(evento)){
-			return "Espaldamaceta \nPau Vallvé \nZa!";
+			return new ArrayList<String>(){{add("Espaldamaceta"); add("Pau Vallvé"); add("Za!");}};
 		}
 		if("PICNICK ELECTRONIK".equals(evento)){
-			return "DERRICK CARTER \nEL GUINCHO \nJUS-ED";
+			return new ArrayList<String>(){{add("DERRICK CARTER"); add("EL GUINCHO"); add("JUS-ED");}};
 		}
-		return "";
+		return new ArrayList<String>();
+	}
+	
+	private int getLogo(String grupo){
+		if("Massive Attack".equals(grupo)) return R.drawable.massiveattack;
+		if("Richie Hawtin".equals(grupo)) return R.drawable.richiehawkin;
+		if("Plastikman".equals(grupo)) return R.drawable.plastikman;
+		if("Espaldamaceta".equals(grupo)) return R.drawable.espaldamaceta;
+		if("Pau Vallvé".equals(grupo)) return R.drawable.pauvallve;
+		if("Za!".equals(grupo)) return R.drawable.za;
+		if("DERRICK CARTER".equals(grupo)) return R.drawable.derrickcarter;
+		if("EL GUINCHO".equals(grupo)) return R.drawable.elguincho;
+		if("JUS-ED".equals(grupo)) return R.drawable.jused;
+		return R.drawable.jused;
 	}
 	
 	private void loadEventsData(String title) {
+		ArrayList<String> grupos = getGrupos(title);
 		eventList = new ArrayList<EventDto>();
 		
 		EventDto eventDto = new EventDto();
-		eventDto.setTitle(getGrupos(title));
+		eventDto.setTitle(grupos.get(0));
+		eventDto.setEventImageId(getLogo(grupos.get(0)));
 		eventDto.setFooter(title);
 		eventList.add(eventDto);
 		
 		eventDto = new EventDto();
-		eventDto.setTitle(getGrupos(title));
+		eventDto.setTitle(grupos.get(1));
+		eventDto.setEventImageId(getLogo(grupos.get(1)));
 		eventDto.setFooter(title);
 		eventList.add(eventDto);
 		
 		eventDto = new EventDto();
-		eventDto.setTitle(getGrupos(title));
+		eventDto.setTitle(grupos.get(2));
+		eventDto.setEventImageId(getLogo(grupos.get(2)));
 		eventDto.setFooter(title);
 		eventList.add(eventDto);
 		
