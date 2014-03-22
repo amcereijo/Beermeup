@@ -200,7 +200,7 @@ public class EventDetailActivity extends Activity{
 			return new ArrayList<String>(){{add("Massive Attack"); add("Richie Hawtin"); add("Plastikman");}};
 		}
 		if("POPARB".equals(evento)){
-			return new ArrayList<String>(){{add("Espaldamaceta"); add("Pau Vallvé"); add("Za!");}};
+			return new ArrayList<String>(){{add("Espaldamaceta"); add("Pau Vallve"); add("Za!");}};
 		}
 		if("PICNICK ELECTRONIK".equals(evento)){
 			return new ArrayList<String>(){{add("DERRICK CARTER"); add("EL GUINCHO"); add("JUS-ED");}};
@@ -213,7 +213,7 @@ public class EventDetailActivity extends Activity{
 		if("Richie Hawtin".equals(grupo)) return R.drawable.richiehawkin;
 		if("Plastikman".equals(grupo)) return R.drawable.plastikman;
 		if("Espaldamaceta".equals(grupo)) return R.drawable.espaldamaceta;
-		if("Pau Vallvé".equals(grupo)) return R.drawable.pauvallve;
+		if("Pau Vallve".equals(grupo)) return R.drawable.pauvallve;
 		if("Za!".equals(grupo)) return R.drawable.za;
 		if("DERRICK CARTER".equals(grupo)) return R.drawable.derrickcarter;
 		if("EL GUINCHO".equals(grupo)) return R.drawable.elguincho;
