@@ -384,7 +384,7 @@ public class PlayActivity extends Activity {
         	card.addImage(R.drawable.cerveza_normal);
         	points +=2 ;
         	if(TOTAL_POINT == points){
-        		card.setText("Collarines completos!!\n Código regalo: ABCDE1\nPrueba la nueva Damm Hack!!");
+        		card.setText("Collarines completos!!\nCódigo regalo: ABCDE1\nPrueba la nueva Damm Hack!!");
         		points = 0;
         	}else{
         		card.setText("Correcto!! Sumas 2 collarines a tu cuenta!!\n" +

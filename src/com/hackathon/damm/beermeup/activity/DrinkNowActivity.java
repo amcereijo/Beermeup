@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.glass.app.Card;
-import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 import com.hackathon.damm.beermeup.R;
@@ -50,7 +49,7 @@ public class DrinkNowActivity extends Activity {
 	}
 	
 	private void showActivities() {
-		mCards = new ArrayList<Card>(4);
+		mCards = new ArrayList<Card>(3);
 
 			Card card = new Card(this);
 	        card.setText("MASSIVE ATTACK\n Escenario Estrella Dam\n Viernes 21\n20:00-21:30");
