@@ -371,7 +371,8 @@ public class PlayActivity extends Activity {
 	        card.setFootnote(footer);
         }else{
         	card = new Card(context);
-	        card.setText("Incorrecto!!\nCollarines:" +points);
+	        card.setText("Incorrecto!! Sigue jugando.\n"+
+	        		"Te faltan "+(TOTAL_POINT-points)+" para tu premio.");
 	        card.addImage(R.drawable.cerveza_normal);
 	        card.setFootnote(footer);
         }
