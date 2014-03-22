@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,18 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.glass.app.Card;
+import com.google.android.glass.touchpad.GestureDetector;
+import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 import com.hackathon.damm.beermeup.R;
 import com.hackathon.damm.beermeup.dto.EventDto;
 
 public class BeerMeUpMainActivity extends Activity {
-	
+	final static String TAG ="beermeup";
 	private List<Card> mCards;
 	private List<EventDto> dailyList;
 	
 	private CardScrollView mCardScrollView;
-	
-	private final String footText = "Choose Daily Team";
+	private final String footText = "Selecciona un evento";
+	private GestureDetector mGestureDetector;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,5 +75,35 @@ public class BeerMeUpMainActivity extends Activity {
 			return rootView;
 		}
 	}
+	
+	private class ExampleCardScrollAdapter extends CardScrollAdapter {
+
+        @Override
+        public int findIdPosition(Object id) {
+        	Log.i(TAG, "findIdPosition");
+            return -1;
+        }
+
+        @Override
+        public int findItemPosition(Object item) {
+            return mCards.indexOf(item);
+        }
+
+        @Override
+        public int getCount() {
+            return mCards.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mCards.get(position);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return mCards.get(position).toView();
+        }
+    }
+
 
 }

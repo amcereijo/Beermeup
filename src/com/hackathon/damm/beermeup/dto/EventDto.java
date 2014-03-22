@@ -1,6 +1,7 @@
 package com.hackathon.damm.beermeup.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class EventDto implements Serializable{
 
@@ -8,7 +9,7 @@ public class EventDto implements Serializable{
 	
 	private String title;
 	private String info;
-	
+	private List<String> musicians;
 	
 	public String getTitle() {
 		return title;
@@ -22,5 +23,11 @@ public class EventDto implements Serializable{
 	public void setInfo(String info) {
 		this.info = info;
 	}
-
+	public List<String> getMusicians() {
+		return musicians;
+	}
+	public void setMusicians(List<String> musicians) {
+		this.musicians = musicians;
+	}
+	
 }
