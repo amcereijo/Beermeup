@@ -34,7 +34,6 @@ public class BeerMeUpMainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_beer_me_up_main);
 		
 		android.os.Debug.waitForDebugger();
 

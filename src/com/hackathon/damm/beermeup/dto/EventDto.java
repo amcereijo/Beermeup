@@ -11,6 +11,7 @@ public class EventDto implements Serializable{
 	private String info;
 	private List<String> bands;
 	private int eventImageId;
+	private String footer;
 	
 	public static final String EVENT_INFO_KEY = "dayliInfoDto";
 	
@@ -37,6 +38,12 @@ public class EventDto implements Serializable{
 	}
 	public void setEventImageId(int eventImageId) {
 		this.eventImageId = eventImageId;
+	}
+	public String getFooter() {
+		return footer;
+	}
+	public void setFooter(String footer) {
+		this.footer = footer;
 	}
 	
 }
