@@ -60,7 +60,7 @@ public class PlayActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		android.os.Debug.waitForDebugger();
 		
-		String[] items = {"check","out","next","back","new"};
+		String[] items = {"check","out","next","back","game"};
         mVoiceConfig = new VoiceConfig("MyVoiceConfigPlay", items);
         
 		Log.i(TAG, "Entra a PLay");
@@ -199,7 +199,7 @@ public class PlayActivity extends Activity {
             String recognizedStr = vc.getLiteral();
             Log.i(TAG, "Recognized text: "+recognizedStr);
             
-            if(mCardScrollView.isShown()){
+            if(mCardScrollView!=null && mCardScrollView.isShown()){
 	            if("out".equals(recognizedStr)){
 	            	finish();
 	            }else if("check".equals(recognizedStr)){
