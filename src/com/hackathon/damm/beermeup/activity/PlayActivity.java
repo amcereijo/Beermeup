@@ -70,6 +70,7 @@ public class PlayActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Log.i(TAG, "onResume");
 		
 		mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
                 VoiceInputHelper.newUserActivityObserver(this));
