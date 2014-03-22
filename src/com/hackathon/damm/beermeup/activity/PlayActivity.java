@@ -61,7 +61,7 @@ public class PlayActivity extends Activity {
 		android.os.Debug.waitForDebugger();
 		
 		String[] items = {"check","exit","next","back","play"};
-        mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
+        mVoiceConfig = new VoiceConfig("MyVoiceConfigPlay", items);
         
 		Log.i(TAG, "Entra a PLay");
 	}
@@ -73,6 +73,7 @@ public class PlayActivity extends Activity {
 		
 		mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
                 VoiceInputHelper.newUserActivityObserver(this));
+		mVoiceInputHelper.addVoiceServiceListener();
 		
 		actual = random.nextInt(4);
 		
@@ -138,6 +139,7 @@ public class PlayActivity extends Activity {
 	
 	
     
+	
 	private void changeView(){
 		context = getApplicationContext();
 		
@@ -167,7 +169,6 @@ public class PlayActivity extends Activity {
 		        mGestureDetector = createGestureDetector(context);
 		        
 		        Log.i(TAG, "vistas cambiadas");
-		        
 		        
 			}
 		});
