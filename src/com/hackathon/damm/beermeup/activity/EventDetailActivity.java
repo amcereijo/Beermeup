@@ -267,6 +267,13 @@ public class EventDetailActivity extends Activity{
         mVoiceInputHelper.addVoiceServiceListener();
     }
 	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		mVoiceInputHelper.removeVoiceServiceListener();
+	}
+	
+	
 	public class MyVoiceListener implements VoiceListener {
         
 		protected final VoiceConfig voiceConfig;

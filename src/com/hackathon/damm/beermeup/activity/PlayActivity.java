@@ -59,6 +59,10 @@ public class PlayActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		android.os.Debug.waitForDebugger();
+		
+		String[] items = {"check","exit","next","back","play"};
+        mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
+        
 		Log.i(TAG, "Entra a PLay");
 	}
 	
@@ -66,6 +70,10 @@ public class PlayActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
+		mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
+                VoiceInputHelper.newUserActivityObserver(this));
+		
 		actual = random.nextInt(4);
 		
 		Card card1 = new Card(this);
@@ -75,8 +83,6 @@ public class PlayActivity extends Activity {
 		View card1View = card1.toView();
         setContentView(card1View);
         Log.i(TAG, "SEt de vista principl");
-        
-        setVoiceListener();
         
         new Thread(new Runnable() {
 			
@@ -91,6 +97,12 @@ public class PlayActivity extends Activity {
 			}
 		}).start();
         
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		mVoiceInputHelper.removeVoiceServiceListener();
 	}
 	
 	private void startGame(){
@@ -161,12 +173,6 @@ public class PlayActivity extends Activity {
 		});
 	}
 	
-	private void setVoiceListener(){
-		String[] items = {"check","exit","next","back","play"};
-        mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
-        mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
-                VoiceInputHelper.newUserActivityObserver(this));
-	}
 	
 	public class MyVoiceListener implements VoiceListener {
         

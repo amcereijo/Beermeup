@@ -35,6 +35,11 @@ public class MainActivity extends Activity {
 		
 		mCards = new ArrayList<Card>(3);
 		
+		Card cardNow = new Card(this);
+		cardNow.setText("Pasando ahora");
+		cardNow.setFootnote(footText);
+        mCards.add(cardNow);
+		
 		Card cardPlay = new Card(this);
 		cardPlay.setText("Juega");
 		cardPlay.setFootnote(footText);
@@ -149,13 +154,16 @@ public class MainActivity extends Activity {
 		int cardPos = mCardScrollView.getSelectedItemPosition();
 		Intent intent = null;
         switch (cardPos) {
-		case 0:
+        case 0:
+			 intent = new Intent(this, DrinkNowActivity.class);
+			break;
+        case 1:
 			 intent = new Intent(this, PlayActivity.class);
 			break;
-		case 2:
+		case 3:
 			intent = new Intent(this, ShowBeerCards.class);
 			break;
-		case 1: 
+		case 2: 
 		intent = new Intent(this, BeerMeUpMainActivity.class);
 		default:
 			break;
