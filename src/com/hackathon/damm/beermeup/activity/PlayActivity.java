@@ -2,14 +2,12 @@ package com.hackathon.damm.beermeup.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,38 +17,125 @@ import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
-import com.hackathon.damm.beermeup.R;
-import com.hackathon.damm.beermeup.dto.EventDto;
 
-public class BeerMeUpMainActivity extends Activity {
-	final static String TAG ="beermeup";
-	private List<Card> mCards;
-	private List<EventDto> eventList;
+public class PlayActivity extends Activity {
+
+	protected static final String TAG = "beermeup";
+	private final String[] sonarResponses = new String[]{
+			"Massive Attack",
+			"Rudimental",
+			"Bonobo",
+			"James Holden"
+	};
+	private final String[] sonarSongs = new String[]{
+			"In deepest hollow of our minds A system failure left behind And their necks crane As they turn to pray for rain And their necks crane...",
+			"You know I said it's true I can feel the love Can you feel it too I can feel it ah-ah I can feel it ah-ah...",
+			"We don’t need no truth, got planted now It grows on trees I don’t let it or 8 side loose There’s no saint and there’s no sinner...",
+			"Don't you know it's gone too wrong Early warning How could it have come to this We're dying trying  It's a long way down... "
+	};
 	
-	private CardScrollView mCardScrollView;
-	private final String footText = "Selecciona un evento";
+	Random random = new Random(System.currentTimeMillis());
+	private int actual;
 	private GestureDetector mGestureDetector;
-
+	private final String footer = "Estrella Damm play";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_beer_me_up_main);
-		
-//		android.os.Debug.waitForDebugger();
-		
-		loadEventsData();
-		createCards();
-		
-		mCardScrollView = new CardScrollView(this);
-        ExampleCardScrollAdapter adapter = new ExampleCardScrollAdapter();
-        mCardScrollView.setAdapter(adapter);
-        mCardScrollView.activate();
-        setContentView(mCardScrollView);
-        
-        mCardScrollView.setClickable(Boolean.TRUE);
-        
-        mGestureDetector = createGestureDetector(this);
+		android.os.Debug.waitForDebugger();
 	}
+	
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		actual = random.nextInt(4);
+		
+		Card card1 = new Card(this);
+        card1.setText(sonarSongs[actual]);
+        card1.setFootnote(footer);
+		
+		View card1View = card1.toView();
+        setContentView(card1View);
+        
+        new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					Log.e(TAG, "error" ,e);
+				}
+				changeView();
+			}
+		});
+	}
+	private CardScrollView mCardScrollView;
+	private Context context;
+	private List<Card> mCards; 
+	
+	private void changeView(){
+		context = getApplicationContext();
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				mCards = new ArrayList<Card>(4);
+				for(String response : sonarResponses){
+					Card card = new Card(context);
+			        card.setText(response);
+			        card.setFootnote(footer);
+			        mCards.add(card);
+				}
+				
+				
+				mCardScrollView = new CardScrollView(context);
+		        ExampleCardScrollAdapter adapter = new ExampleCardScrollAdapter();
+		        mCardScrollView.setAdapter(adapter);
+		        mCardScrollView.activate();
+		        setContentView(mCardScrollView);
+		        
+		        mCardScrollView.setClickable(Boolean.TRUE);
+		        
+		        mGestureDetector = createGestureDetector(context);
+			}
+		});
+	}
+	
+	
+	
+	
+	private class ExampleCardScrollAdapter extends CardScrollAdapter {
+
+        @Override
+        public int findIdPosition(Object id) {
+        	Log.i(TAG, "findIdPosition");
+            return -1;
+        }
+
+        @Override
+        public int findItemPosition(Object item) {
+            return mCards.indexOf(item);
+        }
+
+        @Override
+        public int getCount() {
+            return mCards.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mCards.get(position);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return mCards.get(position).toView();
+        }
+    }
+	
 	
 	@Override
 	public boolean onGenericMotionEvent(MotionEvent event) {
@@ -60,6 +145,7 @@ public class BeerMeUpMainActivity extends Activity {
         }
         return false;
 	}
+	
 	
 	
 	private GestureDetector createGestureDetector(Context context) {
@@ -135,112 +221,20 @@ public class BeerMeUpMainActivity extends Activity {
 	        });
 	        return gestureDetector;
 	    }
-	
+
+
 	protected void processTAP() {
 		int cardPos = mCardScrollView.getSelectedItemPosition();
-        EventDto dailyInfoDto = eventList.get(cardPos);
-        
-        Intent dailyProjectIntent = new Intent(this, EventDetailActivity.class);
-        dailyProjectIntent.putExtra(EventDto.EVENT_INFO_KEY, dailyInfoDto);	
-        
-        startActivity(dailyProjectIntent);
+		Card card = null;
+        if(cardPos == actual){
+        	card = new Card(context);
+	        card.setText("Premio!! Código regalo: JXDHU");
+	        card.setFootnote(footer);
+        }else{
+        	card = new Card(context);
+	        card.setText("Incorrecto!!");
+	        card.setFootnote(footer);
+        }
+        setContentView(card.toView());
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.beer_me_up_main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	private class ExampleCardScrollAdapter extends CardScrollAdapter {
-
-        @Override
-        public int findIdPosition(Object id) {
-        	Log.i(TAG, "findIdPosition");
-            return -1;
-        }
-
-        @Override
-        public int findItemPosition(Object item) {
-            return mCards.indexOf(item);
-        }
-
-        @Override
-        public int getCount() {
-            return mCards.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mCards.get(position);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            return mCards.get(position).toView();
-        }
-    }
-	
-	private void loadEventsData() {
-		eventList = new ArrayList<EventDto>();
-		
-		EventDto eventDto = new EventDto();
-		eventDto.setTitle("Sonar");
-		List<String> bands = new ArrayList<String>(3);
-		bands.add("Grupo 1");
-		bands.add("Grupo 2");
-		eventDto.setBands(bands);
-		eventList.add(eventDto);
-		
-		eventDto = new EventDto();
-		eventDto.setTitle("POPARB");
-		bands = new ArrayList<String>(3);
-		bands.add("Grupo 1");
-		bands.add("Grupo 2");
-		eventDto.setBands(bands);
-		eventList.add(eventDto);
-		
-		eventDto = new EventDto();
-		eventDto.setTitle("PICNICK ELECTRONIK");
-		bands = new ArrayList<String>(3);
-		bands.add("Grupo 1");
-		bands.add("Grupo 2");
-			eventDto.setBands(bands);
-			eventList.add(eventDto);
-		
-		eventDto = new EventDto();
-		eventDto.setTitle("APHONICA BANYOLES");
-		bands = new ArrayList<String>(3);
-		bands.add("Grupo 1");
-		bands.add("Grupo 2");
-		eventDto.setBands(bands);
-		eventList.add(eventDto);
-	}
-
-
-	private void createCards() {
-        mCards = new ArrayList<Card>(eventList.size());
-        for(EventDto daily : eventList){
-	        Card card = new Card(this);
-	        card.setText(daily.getTitle());
-	        card.setFootnote(footText);
-	        mCards.add(card);
-        }
-    }
-
-
 }

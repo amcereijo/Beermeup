@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<trigger keyword="@string/app_name" >
+<trigger keyword="be" >
     <constraints
         camera="true"
         network="true" 
