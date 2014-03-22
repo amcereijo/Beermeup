@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.glass.app.Card;
+import com.google.android.glass.app.Card.ImageLayout;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -53,7 +54,7 @@ public class EventDetailActivity extends Activity{
 //        View card1View = card1.toView();
 //        setContentView(card1View);
         
-        String[] items = {"back","next"};
+        String[] items = {"back","next", "check", "exit"};
         mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
         mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
                 VoiceInputHelper.newUserActivityObserver(this));
@@ -243,10 +244,6 @@ public class EventDetailActivity extends Activity{
 		eventDto.setFooter(title);
 		eventList.add(eventDto);
 		
-		eventDto = new EventDto();
-		eventDto.setTitle("Concierto4");
-		eventDto.setFooter(title);
-		eventList.add(eventDto);
 	}
 
 
@@ -266,6 +263,13 @@ public class EventDetailActivity extends Activity{
         super.onResume();
         mVoiceInputHelper.addVoiceServiceListener();
     }
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		mVoiceInputHelper.removeVoiceServiceListener();
+	}
+	
 	
 	public class MyVoiceListener implements VoiceListener {
         
@@ -303,6 +307,10 @@ public class EventDetailActivity extends Activity{
             	if(actual>0){
             		mCardScrollView.setSelection(actual-1);
             	}
+            }else if("check".equals(recognizedStr)){
+            	processTAP();
+            }else if("exit".equals(recognizedStr)){
+            	finish();
             }
             
             return voiceConfig;

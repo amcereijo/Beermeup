@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.glass.app.Card;
-import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 import com.hackathon.damm.beermeup.R;
@@ -48,35 +48,42 @@ public class DrinkNowActivity extends Activity {
 			}			
 		}).start();
 	}
-	
+	Context context;
 	private void showActivities() {
-		mCards = new ArrayList<Card>(4);
+		mCards = new ArrayList<Card>(3);
 
 			Card card = new Card(this);
-	        card.setText("MASSIVE ATTACK\n Escenario Estrella Dam\n Viernes 21\n20:00-21:30");
+	        card.setText("MASSIVE ATTACK\nEscenario Estrella Dam\nViernes 21\n20:00-21:30");
 	        card.setFootnote("Estrella Damm");
-	        card.addImage(R.drawable.cerveza_normal);
+	        card.addImage(R.drawable.massiveattack);
 	        mCards.add(card);
 	        
 	        Card card1 = new Card(this);
-	        card1.setText("WOOD KID\n Escenario Sonar\n Viernes 21\n20:00-21:15");
+	        card1.setText("WOOD KID\nEscenario Sonar\nViernes 21\n20:00-21:15");
 	        card1.setFootnote("Estrella Damm");
-	        card1.addImage(R.drawable.cerveza_normal);
+	        card1.addImage(R.drawable.jused);
 	        mCards.add(card1);
 	        
 	        Card card2 = new Card(this);
-	        card2.setText("RICHIE HAWTIN\n Escenario DJ\n Viernes 21\n20:00-22:00");
+	        card2.setText("RICHIE HAWTIN\nEscenario DJ\nViernes 21\n20:00-22:00");
 	        card2.setFootnote("Estrella Damm");
-	        card2.addImage(R.drawable.cerveza_normal);
+	        card2.addImage(R.drawable.richiehawkin);
 	        mCards.add(card2);
-		
-		mCardScrollView = new CardScrollView(this);
-        ExampleCardScrollAdapter adapter = new ExampleCardScrollAdapter();
-        mCardScrollView.setAdapter(adapter);
-        mCardScrollView.activate();
-        setContentView(mCardScrollView);
-        
-        mCardScrollView.setClickable(Boolean.TRUE);
+	        context = getApplicationContext();
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+
+				mCardScrollView = new CardScrollView(context);
+		        ExampleCardScrollAdapter adapter = new ExampleCardScrollAdapter();
+		        mCardScrollView.setAdapter(adapter);
+		        mCardScrollView.activate();
+		        setContentView(mCardScrollView);
+		        
+		        mCardScrollView.setClickable(Boolean.TRUE);
+			}
+		});
         
 
 	}

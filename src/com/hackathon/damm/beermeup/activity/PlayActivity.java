@@ -59,6 +59,10 @@ public class PlayActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		android.os.Debug.waitForDebugger();
+		
+		String[] items = {"check","exit","next","back","play"};
+        mVoiceConfig = new VoiceConfig("MyVoiceConfigPlay", items);
+        
 		Log.i(TAG, "Entra a PLay");
 	}
 	
@@ -66,6 +70,11 @@ public class PlayActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
+		mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
+                VoiceInputHelper.newUserActivityObserver(this));
+		mVoiceInputHelper.addVoiceServiceListener();
+		
 		actual = random.nextInt(4);
 		
 		Card card1 = new Card(this);
@@ -75,8 +84,6 @@ public class PlayActivity extends Activity {
 		View card1View = card1.toView();
         setContentView(card1View);
         Log.i(TAG, "SEt de vista principl");
-        
-        setVoiceListener();
         
         new Thread(new Runnable() {
 			
@@ -91,6 +98,12 @@ public class PlayActivity extends Activity {
 			}
 		}).start();
         
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		mVoiceInputHelper.removeVoiceServiceListener();
 	}
 	
 	private void startGame(){
@@ -126,6 +139,7 @@ public class PlayActivity extends Activity {
 	
 	
     
+	
 	private void changeView(){
 		context = getApplicationContext();
 		
@@ -156,17 +170,10 @@ public class PlayActivity extends Activity {
 		        
 		        Log.i(TAG, "vistas cambiadas");
 		        
-		        
 			}
 		});
 	}
 	
-	private void setVoiceListener(){
-		String[] items = {"check","exit","next","back","play"};
-        mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
-        mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
-                VoiceInputHelper.newUserActivityObserver(this));
-	}
 	
 	public class MyVoiceListener implements VoiceListener {
         
@@ -384,7 +391,7 @@ public class PlayActivity extends Activity {
         	card.addImage(R.drawable.cerveza_normal);
         	points +=2 ;
         	if(TOTAL_POINT == points){
-        		card.setText("Collarines completos!!\n Código regalo: ABCDE1\nPrueba la nueva Damm Hack!!");
+        		card.setText("Collarines completos!!\nCódigo regalo: ABCDE1\nPrueba la nueva Damm Hack!!");
         		points = 0;
         	}else{
         		card.setText("Correcto!! Sumas 2 collarines a tu cuenta!!\n" +
