@@ -249,14 +249,14 @@ public class PlayActivity extends Activity {
         if(cardPos == actual){
         	card = new Card(context);
         	card.addImage(R.drawable.cerveza_normal);
-	        card.setText("Premio!! Sumas 2 collarines a tu cuenta!!");
-	        points +=2 ;
-	        card.setFootnote(footer+" Collarines:" +points);
+        	points +=2 ;
+        	card.setText("Premio!! Sumas 2 collarines a tu cuenta!!\nCollarines:" +points);
+	        card.setFootnote(footer);
         }else{
         	card = new Card(context);
-	        card.setText("Incorrecto!!");
+	        card.setText("Incorrecto!!\nCollarines:" +points);
 	        card.addImage(R.drawable.cerveza_normal);
-	        card.setFootnote(footer+" Collarines:" +points);
+	        card.setFootnote(footer);
         }
         savePoints(points);
         setContentView(card.toView());
