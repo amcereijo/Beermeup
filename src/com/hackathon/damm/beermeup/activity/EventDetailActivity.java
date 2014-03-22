@@ -254,6 +254,7 @@ public class EventDetailActivity extends Activity{
         mCards = new ArrayList<Card>(eventList.size());
         for(EventDto daily : eventList){
 	        Card card = new Card(this);
+	        card.addImage(daily.getEventImageId());
 	        card.setText(daily.getTitle());
 	        card.setFootnote(footText);
 	        mCards.add(card);
