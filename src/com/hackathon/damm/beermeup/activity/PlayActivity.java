@@ -63,7 +63,7 @@ public class PlayActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		android.os.Debug.waitForDebugger();
 		
-		String[] items = {"check","out","next","back","game"};
+		String[] items = {"check","parent","next","back","game"};
         mVoiceConfig = new VoiceConfig("MyVoiceConfigPlay", items);
         
 		Log.i(TAG, "Entra a PLay");
@@ -76,9 +76,7 @@ public class PlayActivity extends Activity {
 		Log.i(TAG, "onResume");
 		inFinishView = false;
 		
-		mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
-                VoiceInputHelper.newUserActivityObserver(this));
-		mVoiceInputHelper.addVoiceServiceListener();
+		
 		
 		actual = random.nextInt(4);
 		
@@ -102,6 +100,10 @@ public class PlayActivity extends Activity {
 				startGame();
 			}
 		}).start();
+        
+        mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
+                VoiceInputHelper.newUserActivityObserver(this));
+		mVoiceInputHelper.addVoiceServiceListener();
 	}
 	
 	private void preparePlay(){
@@ -237,7 +239,7 @@ public class PlayActivity extends Activity {
             Log.i(TAG, "Recognized text: "+recognizedStr);
             
             if(mCardScrollView!=null && mCardScrollView.isShown()){
-	            if("out".equals(recognizedStr)){
+	            if("parent".equals(recognizedStr)){
 	            	finish();
 	            }else if("check".equals(recognizedStr)){
 	            	processTAP();

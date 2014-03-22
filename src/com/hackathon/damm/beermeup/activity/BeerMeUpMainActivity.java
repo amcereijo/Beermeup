@@ -56,7 +56,7 @@ public class BeerMeUpMainActivity extends Activity {
         mCardScrollView.activate();
         setContentView(mCardScrollView);
         
-        String[] items = {"back","next", "check", "out"};
+        String[] items = {"back","next", "check", "parent"};
         mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
         mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
                 VoiceInputHelper.newUserActivityObserver(this));
@@ -312,7 +312,7 @@ public class BeerMeUpMainActivity extends Activity {
             	}
             }else if("check".equals(recognizedStr)){
             	processTAP();
-            }else if("out".equals(recognizedStr)){
+            }else if("parent".equals(recognizedStr)){
             	finish();
             }
             
