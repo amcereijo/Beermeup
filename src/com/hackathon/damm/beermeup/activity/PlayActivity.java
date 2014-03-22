@@ -159,7 +159,7 @@ public class PlayActivity extends Activity {
 	}
 	
 	private void setVoiceListener(){
-		String[] items = {"ok","back"};
+		String[] items = {"ok","exit","next","back"};
         mVoiceConfig = new VoiceConfig("MyVoiceConfig", items);
         mVoiceInputHelper = new VoiceInputHelper(this, new MyVoiceListener(mVoiceConfig),
                 VoiceInputHelper.newUserActivityObserver(this));
@@ -188,10 +188,21 @@ public class PlayActivity extends Activity {
             String recognizedStr = vc.getLiteral();
             Log.i(TAG, "Recognized text: "+recognizedStr);
             
-            if("back".equals(recognizedStr)){
+            if("exit".equals(recognizedStr)){
             	finish();
             }else if("ok".equals(recognizedStr)){
             	processTAP();
+            }else if("next".equals(recognizedStr)){
+            	int max = mCards.size();
+            	int actual = mCardScrollView.getSelectedItemPosition();
+            	if(actual<max-1){
+            		mCardScrollView.setSelection(actual+1);
+            	}
+            }else if("back".equals(recognizedStr)){
+            	int actual = mCardScrollView.getSelectedItemPosition();
+            	if(actual>0){
+            		mCardScrollView.setSelection(actual-1);
+            	}
             }
             
             return voiceConfig;
