@@ -5,11 +5,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,22 +16,20 @@ import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
-import com.hackathon.damm.beermeup.R;
 import com.hackathon.damm.beermeup.dto.EventDto;
 
-public class BeerMeUpMainActivity extends Activity {
+public class EventDetailActivity extends Activity{
 	final static String TAG ="beermeup";
 	private List<Card> mCards;
 	private List<EventDto> eventList;
 	
 	private CardScrollView mCardScrollView;
-	private final String footText = "Selecciona un evento";
+	private final String footText = "Detalles del concierto";
 	private GestureDetector mGestureDetector;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_beer_me_up_main);
 		
 //		android.os.Debug.waitForDebugger();
 		
@@ -50,6 +45,7 @@ public class BeerMeUpMainActivity extends Activity {
         mCardScrollView.setClickable(Boolean.TRUE);
         
         mGestureDetector = createGestureDetector(this);
+		
 	}
 	
 	@Override
@@ -140,32 +136,12 @@ public class BeerMeUpMainActivity extends Activity {
 		int cardPos = mCardScrollView.getSelectedItemPosition();
         EventDto dailyInfoDto = eventList.get(cardPos);
         
-        Intent dailyProjectIntent = new Intent(this, EventDetailActivity.class);
-        dailyProjectIntent.putExtra(EventDto.EVENT_INFO_KEY, dailyInfoDto);	
-        
-        startActivity(dailyProjectIntent);
+//        Intent dailyProjectIntent = new Intent(this, DailyProjectActivity.class);
+//        dailyProjectIntent.putExtra(EventDto.DAYLI_INFO_KEY, dailyInfoDto);	
+//        
+//        startActivity(dailyProjectIntent);
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.beer_me_up_main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
+	
 	private class ExampleCardScrollAdapter extends CardScrollAdapter {
 
         @Override
@@ -199,7 +175,7 @@ public class BeerMeUpMainActivity extends Activity {
 		eventList = new ArrayList<EventDto>();
 		
 		EventDto eventDto = new EventDto();
-		eventDto.setTitle("Sonar");
+		eventDto.setTitle("Concierto1");
 		List<String> bands = new ArrayList<String>(3);
 		bands.add("Grupo 1");
 		bands.add("Grupo 2");
@@ -207,7 +183,7 @@ public class BeerMeUpMainActivity extends Activity {
 		eventList.add(eventDto);
 		
 		eventDto = new EventDto();
-		eventDto.setTitle("POPARB");
+		eventDto.setTitle("Concierto2");
 		bands = new ArrayList<String>(3);
 		bands.add("Grupo 1");
 		bands.add("Grupo 2");
@@ -215,7 +191,7 @@ public class BeerMeUpMainActivity extends Activity {
 		eventList.add(eventDto);
 		
 		eventDto = new EventDto();
-		eventDto.setTitle("PICNICK ELECTRONIK");
+		eventDto.setTitle("Concierto3");
 		bands = new ArrayList<String>(3);
 		bands.add("Grupo 1");
 		bands.add("Grupo 2");
@@ -223,7 +199,7 @@ public class BeerMeUpMainActivity extends Activity {
 			eventList.add(eventDto);
 		
 		eventDto = new EventDto();
-		eventDto.setTitle("APHONICA BANYOLES");
+		eventDto.setTitle("Concierto4");
 		bands = new ArrayList<String>(3);
 		bands.add("Grupo 1");
 		bands.add("Grupo 2");
@@ -241,6 +217,5 @@ public class BeerMeUpMainActivity extends Activity {
 	        mCards.add(card);
         }
     }
-
-
+	
 }

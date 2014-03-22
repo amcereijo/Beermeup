@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<trigger keyword="hello" >
+<trigger keyword="be" >
     <constraints
         camera="true"
         network="true" 

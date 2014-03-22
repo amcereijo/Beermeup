@@ -9,7 +9,9 @@ public class EventDto implements Serializable{
 	
 	private String title;
 	private String info;
-	private List<String> musicians;
+	private List<String> bands;
+	
+	public static final String EVENT_INFO_KEY = "dayliInfoDto";
 	
 	public String getTitle() {
 		return title;
@@ -23,11 +25,12 @@ public class EventDto implements Serializable{
 	public void setInfo(String info) {
 		this.info = info;
 	}
-	public List<String> getMusicians() {
-		return musicians;
+	public List<String> getBands() {
+		return bands;
 	}
-	public void setMusicians(List<String> musicians) {
-		this.musicians = musicians;
+	public void setBands(List<String> bands) {
+		this.bands = bands;
 	}
+
 	
 }
