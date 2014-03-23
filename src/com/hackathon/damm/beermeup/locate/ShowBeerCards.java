@@ -3,14 +3,6 @@ package com.hackathon.damm.beermeup.locate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.android.glass.app.Card;
-import com.google.android.glass.app.Card.ImageLayout;
-import com.google.android.glass.touchpad.Gesture;
-import com.google.android.glass.touchpad.GestureDetector;
-import com.google.android.glass.widget.CardScrollAdapter;
-import com.google.android.glass.widget.CardScrollView;
-import com.hackathon.damm.beermeup.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +12,14 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.glass.app.Card;
+import com.google.android.glass.app.Card.ImageLayout;
+import com.google.android.glass.touchpad.Gesture;
+import com.google.android.glass.touchpad.GestureDetector;
+import com.google.android.glass.widget.CardScrollAdapter;
+import com.google.android.glass.widget.CardScrollView;
+import com.hackathon.damm.beermeup.R;
 
 public class ShowBeerCards extends Activity{
 	final static String  TAG ="beermeup";
